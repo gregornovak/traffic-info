@@ -39,7 +39,9 @@ class Traffic {
 
     }
 
+    public function hasRecords() {
+        return count($this->getConditions());
+    }
+
 }
-//$c = new Conditions();
-//$c->getConditions();
 require_once 'index.view.php';

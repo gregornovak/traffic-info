@@ -19,9 +19,9 @@
                 <form action="index.php" method="POST">
                     <div class="input-wrapper">
                         <label for="location">Lokacija: </label>
-                        <input type="text" id="location" name="location">
+                        <input type="text" id="location" name="location" value="<?php if(isset($_POST['location'])) { echo $_POST['location']; } ?>">
                     </div>
-                    <button type="submit">Pridobi Info</button>
+                    <button name="submit" type="submit">Pridobi Info</button>
                 </form>
 <!--                <div class="input-wrapper">-->
 <!--                    <label for="from">Od: </label>-->
@@ -35,13 +35,23 @@
             <ul>
                 <?php
                 $conditions = new Traffic();
-                foreach($conditions->getConditions() as $c):
-                    ?>
-                    <li>
-                        <?php echo $c->category['term'] . ' ' . $c->title . ": " . $c->content . ", Osveženo: " . date('H:i - j, M Y', strtotime($c->updated)); ?>
-                    </li>
-                    <?php
-                endforeach;
+                if(isset($_POST['location'])) {
+                    if($conditions->hasRecords() > 0) {
+                        foreach($conditions->getConditions() as $c):
+                            ?>
+                            <li>
+                                <?php echo $c->category['term'] . ' ' . $c->title . ": " . $c->content . ", Osveženo: " . date('H:i - j, M Y', strtotime($c->updated)); ?>
+                            </li>
+                            <?php
+                        endforeach;
+                    } else {
+                        echo "Za to mesto/kraj/cesto ni nobenih obvestil";
+                    }
+
+                } else {
+                    echo 'Vtipkajte željeno cesto';
+                }
+
                 ?>
             </ul>
         </main>
